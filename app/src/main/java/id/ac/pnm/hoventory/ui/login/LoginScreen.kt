@@ -1,5 +1,6 @@
 package id.ac.pnm.hoventory.ui.login
 
+import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -44,6 +45,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import id.ac.pnm.hoventory.MainActivity
 import id.ac.pnm.hoventory.R
 import id.ac.pnm.hoventory.ui.theme.BackgroundColor
 import id.ac.pnm.hoventory.ui.theme.FieldBackground
@@ -63,11 +65,8 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
     LaunchedEffect(loginResult) {
         loginResult?.let {
             if (it == "SUCCESS") {
-                Toast.makeText(
-                    context,
-                    "Login Berhasil",
-                    Toast.LENGTH_SHORT
-                ).show()
+                val intent = Intent(context, MainActivity::class.java)
+                context.startActivity(intent)
             } else {
                Toast.makeText(
                     context,
