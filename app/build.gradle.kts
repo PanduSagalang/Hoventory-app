@@ -3,17 +3,17 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp")
-    id("com.google.gms.google-services")
+    // id("com.google.gms.google-services")
 }
 
 android {
     namespace = "id.ac.pnm.hoventory"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "id.ac.pnm.hoventory"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 
@@ -42,11 +42,13 @@ android {
 }
 
 dependencies {
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
 
     val room_version = "2.7.0"
 
-    implementation(platform("com.google.firebase:firebase-bom:34.12.0"))
-    implementation("com.google.firebase:firebase-database")
+    //implementation(platform("com.google.firebase:firebase-bom:34.12.0"))
+    //implementation("com.google.firebase:firebase-database")
 
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
