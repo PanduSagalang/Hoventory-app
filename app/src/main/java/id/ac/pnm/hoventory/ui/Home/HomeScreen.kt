@@ -95,9 +95,14 @@ fun TopHeader() {
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             modifier = Modifier.height(36.dp)
         ){
-            Icon(imageVector = Icons.Default.PlayArrow, contentDescription = null, modifier = Modifier.size(16.dp))
+            Icon(
+                imageVector = Icons.Default.PlayArrow,
+                contentDescription = null,
+                modifier = Modifier.size(16.dp))
             Spacer(modifier = Modifier.width(4.dp))
-            Text(text = "Tutorial", fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+            Text(text = "Tutorial",
+                fontSize = 12.sp,
+                fontWeight = FontWeight.SemiBold)
         }
     }
 }
@@ -111,22 +116,48 @@ fun SummaryCard() {
     ){
         Spacer(modifier = Modifier.height(24.dp))
 
-        Row (modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
-            Column (modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally){
-                Text("Stok Masuk", color = Color.White.copy(alpha = 0.8f), fontSize = 12.sp)
+        Row (
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically){
+            Column (modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally){
+                Text(
+                    "Stok Masuk",
+                    color = Color.White.copy(alpha = 0.8f),
+                    fontSize = 12.sp)
                 Row {
-                    Icon(Icons.Default.KeyboardArrowDown, contentDescription = null, tint = Color.Green, modifier = Modifier.size(16.dp))
-                    Text("*", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                    Icon(Icons.Default.KeyboardArrowDown,
+                        contentDescription = null,
+                        tint = Color.Green,
+                        modifier = Modifier.size(16.dp))
+                    Text(
+                        "*", color = Color.White,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold)
                 }
             }
-            HorizontalDivider(modifier = Modifier
+            HorizontalDivider(
+                modifier = Modifier
                 .height(40.dp)
                 .width(1.dp), color = Color.White.copy(alpha = 0.2f))
-            Column (modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally){
-                Text("Stok Keluar", color = Color.White.copy(alpha = 0.8f), fontSize = 12.sp)
+            Column (
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally){
+                Text(
+                    "Stok Keluar",
+                    color = Color.White.copy(alpha = 0.8f),
+                    fontSize = 12.sp)
                 Row {
-                    Icon(Icons.Default.KeyboardArrowUp, contentDescription = null, tint = Color.Red, modifier = Modifier.size(16.dp))
-                    Text("*", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                    Icon(
+                        Icons.Default.KeyboardArrowUp,
+                        contentDescription = null,
+                        tint = Color.Red,
+                        modifier = Modifier.size(16.dp))
+                    Text(
+                        "*",
+                        color = Color.White,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -140,10 +171,17 @@ fun QuickAccessCard() {
         colors = CardDefaults.cardColors(containerColor = Color.White),
         modifier = Modifier.fillMaxWidth()
     ) {
-        Column(modifier = Modifier.padding(20.dp)) {
-            Text("Akses Cepat", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(16.dp))
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        Column(
+            modifier = Modifier.padding(20.dp)) {
+            Text(
+                "Akses Cepat",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold)
+            Spacer(
+                modifier = Modifier.height(16.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween) {
                 QuickAccessItem("Stok Masuk", Icons.AutoMirrored.Filled.ArrowForward, GreenIconBg, GreenText)
                 QuickAccessItem("Stok Keluar", Icons.AutoMirrored.Filled.ArrowBack, RedIconBg, RedText)
                 QuickAccessItem("Tambah Produk", Icons.Default.Add, PurpleIconBg, NavyBlue)
@@ -153,22 +191,45 @@ fun QuickAccessCard() {
 }
 
 @Composable
-fun QuickAccessItem(title: String, icon: ImageVector, bgColor: Color, iconColor: Color) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Box(modifier = Modifier.size(64.dp).clip(RoundedCornerShape(16.dp)).background(bgColor), contentAlignment = Alignment.Center) {
-            Icon(imageVector = icon, contentDescription = null, tint = iconColor, modifier = Modifier.size(28.dp))
+fun QuickAccessItem(
+    title: String,
+    icon: ImageVector,
+    bgColor: Color,
+    iconColor: Color) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(
+            modifier = Modifier.size(64.dp).clip(RoundedCornerShape(16.dp)).background(bgColor),
+            contentAlignment = Alignment.Center) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = iconColor,
+                modifier = Modifier.size(28.dp))
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(text = title, fontSize = 12.sp, color = Color.DarkGray)
+        Spacer(
+            modifier = Modifier.height(8.dp))
+        Text(
+            text = title,
+            fontSize = 12.sp,
+            color = Color.DarkGray)
     }
 }
 
 @Composable
 fun RecentActivitySeaction() {
     Column {
-        Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
-            Text("Aktivitas Terbaru", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = NavyBlue)
-            Text("Lihat Semua", fontSize = 12.sp, color = GreenText)
+        Row (
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween){
+            Text(
+                "Aktivitas Terbaru",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold, color = NavyBlue)
+            Text(
+                "Lihat Semua",
+                fontSize = 12.sp,
+                color = GreenText)
         }
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -179,18 +240,34 @@ fun RecentActivitySeaction() {
 }
 
 @Composable
-fun ActivityItem(title: String, subtitle: String, amount: String, unit: String, isIncoming: Boolean) {
-    Card(shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
-        Row(modifier = Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Box(modifier = Modifier.size(40.dp).clip(CircleShape).background(if (isIncoming) GreenIconBg else RedIconBg), contentAlignment = Alignment.Center) {
-                Icon(if (isIncoming) Icons.Default.Add else Icons.Default.Remove, contentDescription = null, tint = if (isIncoming) GreenText else RedText)
+fun ActivityItem(
+    title: String,
+    subtitle: String,
+    amount: String,
+    unit: String,
+    isIncoming: Boolean) {
+    Card(
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                modifier = Modifier.size(40.dp).clip(CircleShape).background(if (isIncoming) GreenIconBg else RedIconBg),
+                contentAlignment = Alignment.Center) {
+                Icon(
+                    if (isIncoming) Icons.Default.Add else Icons.Default.Remove,
+                    contentDescription = null,
+                    tint = if (isIncoming) GreenText else RedText)
             }
             Spacer(modifier = Modifier.width(12.dp))
-            Column(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier.weight(1f)) {
                 Text(title, fontSize = 14.sp, fontWeight = FontWeight.Bold)
                 Text(subtitle, fontSize = 12.sp, color = Color.Gray)
             }
-            Column(horizontalAlignment = Alignment.End) {
+            Column(
+                horizontalAlignment = Alignment.End) {
                 Text(amount, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = if (isIncoming) GreenText else RedText)
                 Text(unit, fontSize = 10.sp, color = Color.Gray)
             }
