@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import id.ac.pnm.hoventory.ui.home.HomeScreen
 import id.ac.pnm.hoventory.ui.MainScreen
 import id.ac.pnm.hoventory.ui.theme.HoventoryTheme
 
