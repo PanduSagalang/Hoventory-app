@@ -25,7 +25,7 @@ class HomeViewModel : ViewModel(){
         _recentActivities.value = listOf(
             Riwayat("Kabel Tembaga 2mm", "09:42 AM • Pandu S.", "+250", "Roll", true),
             Riwayat("Lampu LED Philips 15W", "08:15 AM • Dhea", "-120", "PCS", false),
-            Riwayat("Stop Kontak Broco", "Kemarin • Admin", "+50", "Box", true)
+
         )
     }
 }
