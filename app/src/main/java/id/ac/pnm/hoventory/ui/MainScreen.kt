@@ -22,10 +22,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import id.ac.pnm.hoventory.ui.home.HomeScreen
 import id.ac.pnm.hoventory.ui.theme.NavyBlue
 import androidx.compose.runtime.getValue
+import id.ac.pnm.hoventory.ui.Home.HomeScreen
 import id.ac.pnm.hoventory.ui.Profile.ProfileScreen
+import id.ac.pnm.hoventory.ui.productList.ProductListScreen
 
 @Composable
 fun MainScreen(){
@@ -58,7 +59,7 @@ fun MainScreen(){
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("beranda")  { HomeScreen(navController) }
-            composable("produk") { DummyScreen("Halaman Produk") }
+            composable("produk") { ProductListScreen(navController) }
             composable("riwayat") { DummyScreen("Halaman Riwayat") }
             composable("profil") { ProfileScreen(navController) }
         }
