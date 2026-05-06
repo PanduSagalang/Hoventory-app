@@ -30,6 +30,7 @@ import id.ac.pnm.hoventory.ui.theme.NavyBlue
 import kotlinx.coroutines.channels.ticker
 import java.nio.file.WatchEvent
 import androidx.compose.runtime.getValue
+import id.ac.pnm.hoventory.ui.Profile.ProfileScreen
 
 @Composable
 fun MainScreen(){
@@ -58,13 +59,13 @@ fun MainScreen(){
         innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "home",
+            startDestination = "beranda",
             modifier = Modifier.padding(innerPadding)
-        ){
-            composable("Beranda") { HomeScreen() }
-            composable("Produk") { DummyScreen("Halaman Produk") }
-            composable("Riwayat") { DummyScreen("Halaman Riwayat") }
-            composable("profil") { DummyScreen("Halaman Profil") }
+        ) {
+            composable("beranda") { HomeScreen(navController) }
+            composable("produk") { DummyScreen("Halaman Produk") }
+            composable("riwayat") { DummyScreen("Halaman Riwayat") }
+            composable("profil") { ProfileScreen(navController) }
         }
     }
 }

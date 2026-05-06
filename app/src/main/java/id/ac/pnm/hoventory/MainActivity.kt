@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import id.ac.pnm.hoventory.ui.Home.HomeScreen
+import id.ac.pnm.hoventory.ui.MainScreen
 import id.ac.pnm.hoventory.ui.theme.HoventoryTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HoventoryTheme {
-                HomeScreen()
+                MainScreen()
                 }
             }
         }
