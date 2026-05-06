@@ -1,10 +1,7 @@
 package id.ac.pnm.hoventory.ui
 
-import android.R.id.title
-import android.R.string.no
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -25,10 +22,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import id.ac.pnm.hoventory.ui.Home.HomeScreen
+import id.ac.pnm.hoventory.ui.home.HomeScreen
 import id.ac.pnm.hoventory.ui.theme.NavyBlue
-import kotlinx.coroutines.channels.ticker
-import java.nio.file.WatchEvent
 import androidx.compose.runtime.getValue
 import id.ac.pnm.hoventory.ui.Profile.ProfileScreen
 
