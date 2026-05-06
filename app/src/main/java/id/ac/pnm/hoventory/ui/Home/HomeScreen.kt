@@ -45,7 +45,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import id.ac.pnm.hoventory.ui.riwayat.RiwayatViewModel
 import id.ac.pnm.hoventory.ui.theme.GreenIconBg
 import id.ac.pnm.hoventory.ui.theme.GreenText
 import id.ac.pnm.hoventory.ui.theme.LightGrayBg
@@ -56,7 +58,10 @@ import id.ac.pnm.hoventory.ui.theme.RedText
 import id.ac.pnm.hoventory.ui.theme.RedTutorial
 
 @Composable
-fun HomeScreen(navController: NavController){
+fun HomeScreen(
+    navController: NavController,
+    viewModel: HomeViewModel = viewModel ()
+    ){
     Button(onClick = {
         navController.navigate("profil")
     }) {

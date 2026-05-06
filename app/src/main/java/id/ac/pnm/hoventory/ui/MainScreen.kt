@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AllInbox
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -22,10 +25,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import id.ac.pnm.hoventory.ui.home.HomeScreen
 import id.ac.pnm.hoventory.ui.theme.NavyBlue
 import androidx.compose.runtime.getValue
+import id.ac.pnm.hoventory.ui.Home.HomeScreen
 import id.ac.pnm.hoventory.ui.Profile.ProfileScreen
+import id.ac.pnm.hoventory.ui.riwayat.RiwayatScreen
 
 @Composable
 fun MainScreen(){
@@ -59,7 +63,7 @@ fun MainScreen(){
         ) {
             composable("beranda")  { HomeScreen(navController) }
             composable("produk") { DummyScreen("Halaman Produk") }
-            composable("riwayat") { DummyScreen("Halaman Riwayat") }
+            composable("riwayat") { RiwayatScreen(navController) }
             composable("profil") { ProfileScreen(navController) }
         }
     }
@@ -100,7 +104,7 @@ fun RealBottomNavigationBar(
         NavigationBarItem(
             selected = currentRoute == "produk",
             onClick = {onNavigate("produk")},
-            icon = { Icon(Icons.Default.Home,
+            icon = { Icon(Icons.Default.AllInbox,
                 contentDescription = "Produk") },
             label = {Text("Produk",
                 fontWeight = if (currentRoute == "produk")FontWeight.Bold else FontWeight.Normal)},
@@ -112,7 +116,7 @@ fun RealBottomNavigationBar(
         NavigationBarItem(
             selected = currentRoute == "riwayat",
             onClick = {onNavigate("riwayat")},
-            icon = { Icon(Icons.Default.Home,
+            icon = { Icon(Icons.Default.History,
                 contentDescription = "Riwayat") },
             label = {Text("Riwayat",
                 fontWeight = if (currentRoute == "riwayat")FontWeight.Bold else FontWeight.Normal)},
@@ -124,7 +128,7 @@ fun RealBottomNavigationBar(
         NavigationBarItem(
             selected = currentRoute == "profil",
             onClick = {onNavigate("profil")},
-            icon = { Icon(Icons.Default.Home,
+            icon = { Icon(Icons.Default.Person,
                 contentDescription = "Profil") },
             label = {Text("Profil",
                 fontWeight = if (currentRoute == "profil")FontWeight.Bold else FontWeight.Normal)},
