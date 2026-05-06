@@ -62,7 +62,7 @@ fun MainScreen(){
             startDestination = "beranda",
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable("beranda") { HomeScreen(navController) }
+            composable("beranda")  { HomeScreen(navController) }
             composable("produk") { DummyScreen("Halaman Produk") }
             composable("riwayat") { DummyScreen("Halaman Riwayat") }
             composable("profil") { ProfileScreen(navController) }
