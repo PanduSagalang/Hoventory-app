@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp")
-//    id("com.google.gms.google-services")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -39,17 +39,19 @@ android {
     buildFeatures {
         compose = true
     }
+    buildToolsVersion = "37.0.0"
+    ndkVersion = "28.2.13676358"
 }
 
 dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
-
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-analytics")
     val room_version = "2.7.0"
-
-//    implementation(platform("com.google.firebase:firebase-bom:34.12.0"))
-//    implementation("com.google.firebase:firebase-database")
-
+    implementation("androidx.room:room-ktx:$room_version")
+     implementation("com.google.firebase:firebase-database")
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
 
