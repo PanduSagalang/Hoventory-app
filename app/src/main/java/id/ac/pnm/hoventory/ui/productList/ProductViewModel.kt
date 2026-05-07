@@ -21,6 +21,7 @@ class ProductViewModel : ViewModel() {
                 sku = "KB001",
                 name = "Kabel",
                 category = "Elektronik",
+                baseUnit = "Pcs",
                 stock = 3,
                 minStock = 5,
                 costPrice = 10000.0
@@ -30,6 +31,7 @@ class ProductViewModel : ViewModel() {
                 sku = "AD001",
                 name = "Adaptor",
                 category = "Elektronik",
+                baseUnit = "Pcs",
                 stock = 10,
                 minStock = 5,
                 costPrice = 25000.0
@@ -37,15 +39,23 @@ class ProductViewModel : ViewModel() {
         )
     }
 
-    fun addProduct(sku: String, name: String, costPrice: String, stock: String) {
+    fun addProduct(
+        sku: String,
+        name: String,
+        category: String,
+        baseUnit: String,
+        costPrice: String
+    ) {
         val newProduct = Product(
             id = System.currentTimeMillis().toString(),
             sku = sku,
             name = name,
+            category = category,
+            baseUnit = baseUnit,
+            stock = 0,
+            minStock = 5,
             costPrice = costPrice.toDoubleOrNull() ?: 0.0,
-            stock = stock.toIntOrNull() ?: 0,
-            category = "Umum",
-            minStock = 5
+            imageUrl = ""
         )
         _products.value = _products.value + newProduct
     }

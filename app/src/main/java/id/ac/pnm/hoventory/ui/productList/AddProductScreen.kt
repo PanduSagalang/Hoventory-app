@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,9 +18,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -47,6 +50,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import androidx.room.util.TableInfo
 import id.ac.pnm.hoventory.ui.theme.BackgroundColor
 import id.ac.pnm.hoventory.ui.theme.FieldBackground
 import id.ac.pnm.hoventory.ui.theme.PrimaryBlue
@@ -60,7 +64,8 @@ fun AddProductScreen(navController: NavController) {
     var sku by remember { mutableStateOf("") }
     var namaProduk by remember { mutableStateOf("") }
     var harga by remember { mutableStateOf("") }
-    var stok by remember { mutableStateOf("") }
+    var kategori by remember { mutableStateOf("Umum") }
+    var unit by remember { mutableStateOf("Pcs") }
 
     Scaffold(
         topBar = {
@@ -89,24 +94,62 @@ fun AddProductScreen(navController: NavController) {
                 ) {
                     Button(
                         onClick = {
-                            if (namaProduk.isNotEmpty()) {
-                                viewModel.addProduct(sku,namaProduk,harga,stok)
+                            if (
+                                sku.isNotEmpty() &&
+                                namaProduk.isNotEmpty()
+                            ) {
+                                viewModel.addProduct(
+                                    sku = sku,
+                                    name = namaProduk,
+                                    category = kategori,
+                                    baseUnit = unit,
+                                    costPrice = harga
+                                )
                                 navController.popBackStack()
                             }
                         },
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(52.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = PrimaryBlue),
-                        shape = RoundedCornerShape(8.dp)
+                        shape = RoundedCornerShape(14.dp)
                     ) {
-                        Text("Simpan Produk")
+                        Text(
+                            "Simpan Produk",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 14.sp
+                        )
                     }
                     OutlinedButton(
-                        onClick = { },
-                        modifier = Modifier.weight(1f),
-                        shape = RoundedCornerShape(8.dp),
+                        onClick = {
+                            if (
+                                sku.isNotEmpty() &&
+                                namaProduk.isNotEmpty()
+                            ) {
+                                viewModel.addProduct(
+                                    sku = sku,
+                                    name = namaProduk,
+                                    category = kategori,
+                                    baseUnit = unit,
+                                    costPrice = harga
+                                )
+                                sku = ""
+                                namaProduk = ""
+                                harga = ""
+                            }
+                        },
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(52.dp),
+                        shape = RoundedCornerShape(14.dp),
                         border = androidx.compose.foundation.BorderStroke(1.dp, PrimaryBlue)
                     ) {
-                        Text("Simpan & Buat Lagi", color = PrimaryBlue, fontSize = 12.sp)
+                        Text(
+                            "Simpan & Buat Lagi",
+                            color = PrimaryBlue,
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Bold
+                        )
                     }
                 }
             }
@@ -119,15 +162,72 @@ fun AddProductScreen(navController: NavController) {
                 .padding(paddingValues)
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
-            SectionHeader(number = "1", title = "Informasi Dasar")
-            CustomtextField(label = "SKU", value = sku, onValueChange = { sku = it })
-            CustomtextField(label = "Nama Produk", value = namaProduk, onValueChange = { namaProduk = it })
+            SectionHeader(
+                number = "1",
+                title = "Informasi Dasar"
+            )
 
-            SectionHeader(number = "2", title = "Harga & Stok")
-            CustomtextField(label = "Harga Jual", value = harga, onValueChange = { harga = it }, prefix = "Rp")
-            CustomtextField(label = "Jumlah Stok", value = stok, onValueChange = { stok = it })
+            CardSection {
+                ProductImagePicker()
+
+                Spacer(modifier = Modifier.height(18.dp))
+
+                CustomtextField(
+                    label = "SKU",
+                    value = sku,
+                    onValueChange = {
+                        sku = it
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(14.dp))
+
+                CustomtextField(
+                    label = "Nama Produk",
+                    value = namaProduk,
+                    onValueChange = {
+                        namaProduk = it
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(14.dp))
+
+                CustomtextField(
+                    label = "Kategori",
+                    value = kategori,
+                    onValueChange = {
+                        kategori = it
+                    }
+                )
+            }
+
+            SectionHeader(
+                number = "2",
+                title = "Unit & Harga"
+            )
+
+            CardSection {
+                CustomtextField(
+                    label = "Unit",
+                    value = unit,
+                    onValueChange = {
+                        unit = it
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(14.dp))
+
+                CustomtextField(
+                    label = "Harga Produk",
+                    value = harga,
+                    onValueChange = {
+                        harga = it
+                    },
+                    prefix = "Rp"
+                )
+            }
         }
     }
 }
@@ -140,7 +240,7 @@ fun SectionHeader(number: String, title: String) {
         Surface(
             shape = CircleShape,
             color = PrimaryBlue,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(28.dp)
         ) {
             Box(
                 contentAlignment = Alignment.Center
@@ -154,16 +254,63 @@ fun SectionHeader(number: String, title: String) {
             }
         }
 
-        Spacer(Modifier.width(8.dp))
+        Spacer(Modifier.width(10.dp))
         Text(
             title,
             fontWeight = FontWeight.Bold,
             color = PrimaryBlue,
-            fontSize = 15.sp
+            fontSize = 16.sp
         )
     }
 }
+@Composable
+fun ProductImagePicker() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(160.dp)
+            .background(
+                color = FieldBackground,
+                shape = RoundedCornerShape(16.dp)
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = null,
+                tint = TextGray,
+                modifier = Modifier.size(32.dp)
+            )
 
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = "Tambah Foto Produk",
+                color = TextGray,
+                fontSize = 14.sp
+            )
+        }
+    }
+}
+@Composable
+fun CardSection(
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(18.dp)
+            )
+            .padding(16.dp)
+    ) {
+        content()
+    }
+}
 @Composable
 fun CustomtextField(
     label: String,
@@ -184,13 +331,20 @@ fun CustomtextField(
             value = value,
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
             shape = RoundedCornerShape(8.dp),
             prefix = prefix?.let { { Text(it) } },
-            trailingIcon = trailingIcon?.let { { Icon(it, null, tint = PrimaryBlue) } },
+            trailingIcon = trailingIcon?.let {
+                { Icon(
+                    it,
+                    null,
+                    tint = PrimaryBlue) } },
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedContainerColor = FieldBackground,
                 focusedContainerColor = FieldBackground,
-                unfocusedBorderColor = Color.Transparent
+                focusedBorderColor = PrimaryBlue,
+                unfocusedBorderColor = Color.Transparent,
+                cursorColor = PrimaryBlue
             )
         )
     }
