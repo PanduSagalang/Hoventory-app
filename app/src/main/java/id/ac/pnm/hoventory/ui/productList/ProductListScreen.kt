@@ -59,7 +59,9 @@ fun ProductListScreen(navController: NavController) {
         containerColor = BackgroundColor,
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { },
+                onClick = {
+                    navController.navigate("tambah_produk")
+                },
                 containerColor = PrimaryBlue,
                 contentColor = Color.White,
                 shape = CircleShape

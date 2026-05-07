@@ -37,8 +37,17 @@ class ProductViewModel : ViewModel() {
         )
     }
 
-    fun addProduct(product: Product) {
-        _products.value = _products.value + product
+    fun addProduct(sku: String, name: String, costPrice: String, stock: String) {
+        val newProduct = Product(
+            id = System.currentTimeMillis().toString(),
+            sku = sku,
+            name = name,
+            costPrice = costPrice.toDoubleOrNull() ?: 0.0,
+            stock = stock.toIntOrNull() ?: 0,
+            category = "Umum",
+            minStock = 5
+        )
+        _products.value = _products.value + newProduct
     }
 
     fun deleteProduct(product: Product) {

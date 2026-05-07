@@ -29,6 +29,7 @@ import id.ac.pnm.hoventory.ui.theme.NavyBlue
 import androidx.compose.runtime.getValue
 import id.ac.pnm.hoventory.ui.Home.HomeScreen
 import id.ac.pnm.hoventory.ui.Profile.ProfileScreen
+import id.ac.pnm.hoventory.ui.productList.AddProductScreen
 import id.ac.pnm.hoventory.ui.productList.ProductListScreen
 import id.ac.pnm.hoventory.ui.riwayat.RiwayatScreen
 
@@ -38,7 +39,7 @@ fun MainScreen(){
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val noBottomBarRoutes = listOf("login")
+    val noBottomBarRoutes = listOf("login", "tambah_produk")
 
     Scaffold (
         bottomBar = {
@@ -66,6 +67,7 @@ fun MainScreen(){
             composable("produk") { ProductListScreen(navController) }
             composable("riwayat") { RiwayatScreen(navController) }
             composable("profil") { ProfileScreen(navController) }
+            composable("tambah_produk") { AddProductScreen(navController) }
         }
     }
 }
