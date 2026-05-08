@@ -28,6 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import id.ac.pnm.hoventory.ui.theme.NavyBlue
 import androidx.compose.runtime.getValue
 import id.ac.pnm.hoventory.ui.Home.HomeScreen
+import id.ac.pnm.hoventory.ui.Profile.KelolaAnggota
 import id.ac.pnm.hoventory.ui.Profile.ProfileScreen
 import id.ac.pnm.hoventory.ui.login.LoginScreen
 import id.ac.pnm.hoventory.ui.bisnis.BisnisScreen
@@ -46,7 +47,8 @@ fun MainScreen(){
         "login",
         "register",
         "tambah_produk",
-        "bisnis"
+        "bisnis",
+        "anggota"
     )
 
     Scaffold (
@@ -79,6 +81,7 @@ fun MainScreen(){
             composable("profil") { ProfileScreen(navController) }
             composable("tambah_produk") { AddProductScreen(navController) }
             composable("bisnis")        { BisnisScreen(navController) }
+            composable("anggota")        { KelolaAnggota(navController) }
         }
     }
 }

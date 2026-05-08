@@ -140,7 +140,7 @@ fun ProfileScreen(navController: NavController) {
                 Column(modifier = Modifier.padding(vertical = 8.dp)) {
                     val menus = listOf(
                         "Bisnis" to Icons.Default.Business,
-                        "Pengaturan Akun"      to Icons.Default.AccountCircle,
+                        "Kelola anggota"      to Icons.Default.AccountCircle,
                         "Notifikasi"      to Icons.Default.Notifications,
                         "Pusat Bantuan"   to Icons.Default.Help,
                         "Tentang Aplikasi" to Icons.Default.Info
@@ -153,6 +153,10 @@ fun ProfileScreen(navController: NavController) {
                                     when(title){
                                         "Bisnis" -> navController.navigate("bisnis"){
                                             launchSingleTop = true
+                                        }
+                                        "Kelola anggota" -> navController.navigate("anggota"){
+                                            launchSingleTop = true
+
                                         }
                                     }
                                 }
