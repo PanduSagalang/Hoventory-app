@@ -1,11 +1,9 @@
 package id.ac.pnm.hoventory.ui.login
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
 
@@ -27,30 +25,44 @@ class LoginViewModel : ViewModel() {
         _password.value = newPassword
     }
     fun login() {
-        viewModelScope.launch {
-            _isLoading.value = true
+        val emailValue = email.value.trim()
+        val passwordValue = password.value
 
-            val email = _email.value
-            val password = _password.value
-
-            if (email.isEmpty() || password.isEmpty()) {
-                _loginResult.value = "Email dan password tidak boleh kosong"
-                _isLoading.value = false
-                return@launch
-            }
-
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    _isLoading.value = false
-
-                    if (task.isSuccessful) {
-                        _loginResult.value = "SUCCESS"
-                    } else {
-                        _loginResult.value = task.exception?.message
-                            ?: "Login gagal"
-                    }
-                }
+        if (
+            emailValue.isBlank() ||
+            passwordValue.isBlank()
+        ) {
+            _loginResult.value =
+                "Email dan password tidak boleh kosong"
+            return
         }
+
+        if (
+            !android.util.Patterns.EMAIL_ADDRESS
+                .matcher(emailValue)
+                .matches()
+        ) {
+            _loginResult.value =
+                "Format email tidak valid"
+            return
+        }
+
+        _isLoading.value = true
+        auth.signInWithEmailAndPassword(
+            emailValue,
+            passwordValue
+        )
+            .addOnCompleteListener { task ->
+                _isLoading.value = false
+
+                if (task.isSuccessful) {
+                    _loginResult.value = "SUCCESS"
+                } else {
+                    _loginResult.value =
+                        task.exception?.message
+                            ?: "Login gagal"
+                }
+            }
     }
     fun clearLoginResult() {
         _loginResult.value = null
