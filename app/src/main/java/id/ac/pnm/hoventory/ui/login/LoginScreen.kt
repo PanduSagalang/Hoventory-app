@@ -1,6 +1,5 @@
 package id.ac.pnm.hoventory.ui.login
 
-import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -45,7 +45,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import id.ac.pnm.hoventory.MainActivity
+import androidx.navigation.NavController
 import id.ac.pnm.hoventory.R
 import id.ac.pnm.hoventory.ui.theme.BackgroundColor
 import id.ac.pnm.hoventory.ui.theme.FieldBackground
@@ -54,7 +54,7 @@ import id.ac.pnm.hoventory.ui.theme.TealColor
 import id.ac.pnm.hoventory.ui.theme.TextGray
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
+fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewModel()) {
     val email by viewModel.email.collectAsState()
     val password by viewModel.password.collectAsState()
     var passwordVisible by remember { mutableStateOf(false) }
@@ -65,8 +65,12 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
     LaunchedEffect(loginResult) {
         loginResult?.let {
             if (it == "SUCCESS") {
-                val intent = Intent(context, MainActivity::class.java)
-                context.startActivity(intent)
+                navController.navigate("beranda") {
+                    popUpTo("login") {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                }
             } else {
                Toast.makeText(
                     context,
@@ -217,10 +221,10 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
                 Button(
                     onClick = {
                         if (email.isBlank() || password.isBlank()) {
-                            android.widget.Toast.makeText(
+                            Toast.makeText(
                                 context,
                                 "Email & Password tidak boleh kosong",
-                                android.widget.Toast.LENGTH_SHORT
+                                Toast.LENGTH_SHORT
                             ).show()
                         } else {
                             viewModel.login()
@@ -238,6 +242,27 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = Color.White
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(18.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Belum punya akun?",
+                        color = TextGray
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = "Daftar",
+                        color = PrimaryBlue,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.clickable{
+                            navController.navigate("register")
+                        }
                     )
                 }
             }

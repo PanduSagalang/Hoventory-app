@@ -29,9 +29,11 @@ import id.ac.pnm.hoventory.ui.theme.NavyBlue
 import androidx.compose.runtime.getValue
 import id.ac.pnm.hoventory.ui.Home.HomeScreen
 import id.ac.pnm.hoventory.ui.Profile.ProfileScreen
+import id.ac.pnm.hoventory.ui.login.LoginScreen
 import id.ac.pnm.hoventory.ui.bisnis.BisnisScreen
 import id.ac.pnm.hoventory.ui.productList.AddProductScreen
 import id.ac.pnm.hoventory.ui.productList.ProductListScreen
+import id.ac.pnm.hoventory.ui.register.RegisterScreen
 import id.ac.pnm.hoventory.ui.riwayat.RiwayatScreen
 
 @Composable
@@ -40,7 +42,12 @@ fun MainScreen(){
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val noBottomBarRoutes = listOf("login", "tambah_produk","bisnis")
+    val noBottomBarRoutes = listOf(
+        "login",
+        "register",
+        "tambah_produk",
+        "bisnis"
+    )
 
     Scaffold (
         bottomBar = {
@@ -61,10 +68,11 @@ fun MainScreen(){
         innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "beranda",
+            startDestination = "login",
             modifier = Modifier.padding(innerPadding)
         ) {
-
+            composable("login") { LoginScreen(navController) }
+            composable("register") { RegisterScreen(navController) }
             composable("beranda")  { HomeScreen(navController) }
             composable("produk") { ProductListScreen(navController) }
             composable("riwayat") { RiwayatScreen(navController) }
