@@ -4,8 +4,10 @@ import android.inputmethodservice.Keyboard.Row
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -13,12 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import id.ac.pnm.hoventory.R
 
 @Composable
 fun ProfileScreen(navController: NavController) {
@@ -29,15 +33,22 @@ fun ProfileScreen(navController: NavController) {
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
 
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth()
+                .padding(horizontal= 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
             ) {
+                Icon(painter = painterResource(id = R.drawable.ic_logo),
+                    modifier = Modifier.size(24.dp),
+                    contentDescription = null, tint = Color((0xFF243A8F)))
                 Text("Hoventory", color = Color.Black, fontSize = 22.sp)
+                Spacer(modifier = Modifier.width(24.dp))
                 Surface(
                     shape = RoundedCornerShape(20.dp),
                     color = Color(0xFFE8FFF0)
@@ -128,7 +139,8 @@ fun ProfileScreen(navController: NavController) {
             ) {
                 Column(modifier = Modifier.padding(vertical = 8.dp)) {
                     val menus = listOf(
-                        "Pengaturan Akun" to Icons.Default.Settings,
+                        "Bisnis" to Icons.Default.Business,
+                        "Pengaturan Akun"      to Icons.Default.AccountCircle,
                         "Notifikasi"      to Icons.Default.Notifications,
                         "Pusat Bantuan"   to Icons.Default.Help,
                         "Tentang Aplikasi" to Icons.Default.Info
@@ -137,7 +149,13 @@ fun ProfileScreen(navController: NavController) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { }
+                                .clickable {
+                                    when(title){
+                                        "Bisnis" -> navController.navigate("bisnis"){
+                                            launchSingleTop = true
+                                        }
+                                    }
+                                }
                                 .padding(18.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
@@ -175,22 +193,7 @@ fun ProfileScreen(navController: NavController) {
                             Text("Keluar")
                         }
 
-                        Button(
-                            onClick = {},
-                            modifier = Modifier.size(52.dp),
-                            shape = RoundedCornerShape(14.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color(0xFF243A8F),
-                                contentColor = Color.White
-                            ),
-                            contentPadding = PaddingValues(0.dp)
-                        ) {
-                            Icon(
-                                Icons.Default.QrCodeScanner,
-                                contentDescription = "Scan",
-                                modifier = Modifier.size(26.dp)
-                            )
-                        }
+
                     }
                 }
             }

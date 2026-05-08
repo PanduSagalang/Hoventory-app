@@ -61,7 +61,6 @@ fun EditBusinessScreen() {
                 .padding(paddingValues)
         ) {
 
-            // TOP BAR
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
