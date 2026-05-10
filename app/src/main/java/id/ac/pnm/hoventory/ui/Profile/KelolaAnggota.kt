@@ -41,7 +41,7 @@ fun KelolaAnggota(navController: NavController? = null){Scaffold(
     topBar = {
         TopAppBar(
             navigationIcon = {
-                IconButton(onClick = { /* Back */ }) {
+                IconButton(onClick = { navController?.popBackStack() }) {
                     Icon(Icons.Default.ArrowBack, contentDescription = null, tint = Color(0xFF1A237E))
                 }
             },
@@ -51,8 +51,9 @@ fun KelolaAnggota(navController: NavController? = null){Scaffold(
                     Text("Lawu Elektronik", fontSize = 14.sp, color = Color.Gray)
                 }
             },
+
             actions = {
-                // Perbaikan Warna: Hijau muda sesuai gambar
+
                 Surface(
                     color = Color(0xFFE8FFF0),
                     shape = RoundedCornerShape(20.dp),

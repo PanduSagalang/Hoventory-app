@@ -1,53 +1,35 @@
 package id.ac.pnm.hoventory.ui.productList
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.application
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import id.ac.pnm.hoventory.AppDatabase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import id.ac.pnm.hoventory.data.Product
+import kotlinx.coroutines.launch
+import retrofit2.http.Url
 
-class ProductViewModel : ViewModel() {
+class ProductViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _products = MutableStateFlow<List<Product>>(emptyList())
-    val products: StateFlow<List<Product>> = _products
 
-    init {
-        loadDummyData()
-    }
+    private val productDao = AppDatabase.getInstance(application).ProductDao()
 
-    private fun loadDummyData() {
-        _products.value = listOf(
-            Product(
-                id = "1",
-                sku = "KB001",
-                name = "Kabel",
-                category = "Elektronik",
-                baseUnit = "Pcs",
-                stock = 3,
-                minStock = 5,
-                costPrice = 10000.0
-            ),
-            Product(
-                id = "2",
-                sku = "AD001",
-                name = "Adaptor",
-                category = "Elektronik",
-                baseUnit = "Pcs",
-                stock = 10,
-                minStock = 5,
-                costPrice = 25000.0
-            )
-        )
-    }
+    val product = productDao.getAllProducts()
+
 
     fun addProduct(
         sku: String,
         name: String,
         category: String,
         baseUnit: String,
-        costPrice: String
+        costPrice: String,
+        imageUrl: String = ""
     ) {
         val newProduct = Product(
-            id = System.currentTimeMillis().toString(),
             sku = sku,
             name = name,
             category = category,
@@ -55,12 +37,16 @@ class ProductViewModel : ViewModel() {
             stock = 0,
             minStock = 5,
             costPrice = costPrice.toDoubleOrNull() ?: 0.0,
-            imageUrl = ""
+            imageUrl = imageUrl
         )
-        _products.value = _products.value + newProduct
+        viewModelScope.launch {
+            productDao.insert(newProduct)
+        }
     }
 
     fun deleteProduct(product: Product) {
-        _products.value = _products.value - product
+        viewModelScope.launch {
+            productDao.delete(product)
+        }
     }
 }

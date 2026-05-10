@@ -1,6 +1,10 @@
 package id.ac.pnm.hoventory.ui.productList
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +24,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -41,8 +46,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,7 +58,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import androidx.room.util.TableInfo
+import coil3.compose.AsyncImage
 import id.ac.pnm.hoventory.ui.theme.BackgroundColor
 import id.ac.pnm.hoventory.ui.theme.FieldBackground
 import id.ac.pnm.hoventory.ui.theme.PrimaryBlue
@@ -66,7 +74,17 @@ fun AddProductScreen(navController: NavController) {
     var harga by remember { mutableStateOf("") }
     var kategori by remember { mutableStateOf("Umum") }
     var unit by remember { mutableStateOf("Pcs") }
+    var imageUri by remember {mutableStateOf<Uri?>(null)}
+    val context = LocalContext.current
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
 
+            val savedPath = saveImageToInternalStorage(context,it)
+            imageUri = Uri.parse(savedPath)
+        }
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -81,6 +99,7 @@ fun AddProductScreen(navController: NavController) {
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
             )
         },
+
         bottomBar = {
             Surface(
                 shadowElevation = 8.dp,
@@ -96,14 +115,15 @@ fun AddProductScreen(navController: NavController) {
                         onClick = {
                             if (
                                 sku.isNotEmpty() &&
-                                namaProduk.isNotEmpty()
+                                namaProduk.isNotEmpty() && harga.isNotEmpty()
                             ) {
                                 viewModel.addProduct(
                                     sku = sku,
                                     name = namaProduk,
                                     category = kategori,
                                     baseUnit = unit,
-                                    costPrice = harga
+                                    costPrice = harga,
+                                    imageUrl = imageUri?.toString() ?:""
                                 )
                                 navController.popBackStack()
                             }
@@ -131,7 +151,8 @@ fun AddProductScreen(navController: NavController) {
                                     name = namaProduk,
                                     category = kategori,
                                     baseUnit = unit,
-                                    costPrice = harga
+                                    costPrice = harga,
+                                    imageUrl = imageUri?.toString() ?:""
                                 )
                                 sku = ""
                                 namaProduk = ""
@@ -170,7 +191,10 @@ fun AddProductScreen(navController: NavController) {
             )
 
             CardSection {
-                ProductImagePicker()
+                ProductImagePicker(
+                    imageUri = imageUri,
+                    onPickImage = { launcher.launch("image/*") }
+                )
 
                 Spacer(modifier = Modifier.height(18.dp))
 
@@ -264,7 +288,7 @@ fun SectionHeader(number: String, title: String) {
     }
 }
 @Composable
-fun ProductImagePicker() {
+fun ProductImagePicker(imageUri: Uri?, onPickImage: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -272,26 +296,53 @@ fun ProductImagePicker() {
             .background(
                 color = FieldBackground,
                 shape = RoundedCornerShape(16.dp)
-            ),
-        contentAlignment = Alignment.Center
+            )
+        .clickable { onPickImage() },
+    contentAlignment = Alignment.Center
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = null,
-                tint = TextGray,
-                modifier = Modifier.size(32.dp)
+        if (imageUri !== null) {
+            AsyncImage(
+                model = imageUri,
+                contentDescription = "Foto Produk",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(16.dp))
             )
+       Box(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(8.dp)
+                    .background(Color.Black.copy(alpha = 0.5f), CircleShape)
+                    .padding(4.dp)
+            ) {
+                Icon(
+                    Icons.Default.Edit,
+                    contentDescription = "Ganti Foto",
+                    tint = Color.White,
+                    modifier = Modifier.size(16.dp)
+                )
+            }
+        } else {
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = null,
+                    tint = TextGray,
+                    modifier = Modifier.size(32.dp)
+                )
 
-            Text(
-                text = "Tambah Foto Produk",
-                color = TextGray,
-                fontSize = 14.sp
-            )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "Tambah Foto Produk",
+                    color = TextGray,
+                    fontSize = 14.sp
+                )
+            }
         }
     }
 }

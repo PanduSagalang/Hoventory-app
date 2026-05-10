@@ -51,7 +51,7 @@ fun ProductListScreen(navController: NavController) {
     var search by remember { mutableStateOf("") }
 
     val viewModel: ProductViewModel = viewModel()
-    val products by viewModel.products.collectAsState()
+    val products by viewModel.product.collectAsState(initial = emptyList())
 
     val filteredProducts = products.filter {
         it.name.contains(search, ignoreCase = true) ||
