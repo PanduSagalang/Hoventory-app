@@ -181,7 +181,9 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewMo
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp,
                         color = TealColor,
-                        modifier = Modifier.clickable{ }
+                        modifier = Modifier.clickable{
+                            viewModel.resetPassword()
+                        }
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))

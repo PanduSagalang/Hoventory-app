@@ -80,8 +80,8 @@ fun MainScreen(){
             composable("riwayat") { RiwayatScreen(navController) }
             composable("profil") { ProfileScreen(navController) }
             composable("tambah_produk") { AddProductScreen(navController) }
-            composable("bisnis")        { BisnisScreen(navController) }
-            composable("anggota")        { KelolaAnggota(navController) }
+            composable("bisnis") { BisnisScreen(navController) }
+            composable("anggota") { KelolaAnggota(navController) }
         }
     }
 }

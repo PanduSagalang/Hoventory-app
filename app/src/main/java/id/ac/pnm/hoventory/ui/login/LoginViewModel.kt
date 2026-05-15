@@ -64,6 +64,31 @@ class LoginViewModel : ViewModel() {
                 }
             }
     }
+    fun resetPassword() {
+        val emailValue = email.value.trim()
+
+        if (emailValue.isBlank()) {
+            _loginResult.value = "Masukkan email terlebih dahulu"
+            return
+        }
+        if (
+            !android.util.Patterns.EMAIL_ADDRESS
+                .matcher(emailValue)
+                .matches()
+        ) {
+            _loginResult.value = "Format email tidak valid"
+            return
+        }
+
+        auth.sendPasswordResetEmail(emailValue)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    _loginResult.value = "Link reset password telah dikirim ke email"
+                } else {
+                    _loginResult.value = task.exception?.message ?: "Gagal mengirim reset password"
+                }
+            }
+    }
     fun clearLoginResult() {
         _loginResult.value = null
     }

@@ -12,6 +12,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,12 +22,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import id.ac.pnm.hoventory.R
 
 @Composable
-fun ProfileScreen(navController: NavController) {
+fun ProfileScreen(
+    navController: NavController,
+    viewModel: ProfileViewModel = viewModel()
+) {
+    val nama by viewModel.nama.collectAsState()
+    val email by viewModel.email.collectAsState()
+
     Scaffold(
         containerColor = Color(0xFFF7F8FC),
     ) { paddingValues ->
@@ -111,10 +120,16 @@ fun ProfileScreen(navController: NavController) {
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Text(
-                        "Lahap Susanto",
+                        text = nama,
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF243A8F)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = email,
+                        fontSize = 14.sp,
+                        color = Color.Gray
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Surface(
@@ -140,9 +155,9 @@ fun ProfileScreen(navController: NavController) {
                 Column(modifier = Modifier.padding(vertical = 8.dp)) {
                     val menus = listOf(
                         "Bisnis" to Icons.Default.Business,
-                        "Kelola anggota"      to Icons.Default.AccountCircle,
-                        "Notifikasi"      to Icons.Default.Notifications,
-                        "Pusat Bantuan"   to Icons.Default.Help,
+                        "Kelola anggota" to Icons.Default.AccountCircle,
+                        "Notifikasi" to Icons.Default.Notifications,
+                        "Pusat Bantuan" to Icons.Default.Help,
                         "Tentang Aplikasi" to Icons.Default.Info
                     )
                     menus.forEach { (title, icon) ->
@@ -184,7 +199,12 @@ fun ProfileScreen(navController: NavController) {
                     ) {
 
                         Button(
-                            onClick = {},
+                            onClick = {
+                                viewModel.logout()
+                                navController.navigate("login") {
+                                    popUpTo(0)
+                                }
+                            },
                             modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(16.dp),
                             colors = ButtonDefaults.buttonColors(
@@ -203,10 +223,4 @@ fun ProfileScreen(navController: NavController) {
             }
         }
     }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun ProfilePreview() {
-    ProfileScreen(navController = rememberNavController())
 }
