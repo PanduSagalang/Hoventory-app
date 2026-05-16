@@ -23,9 +23,12 @@ import id.ac.pnm.hoventory.ui.theme.PrimaryBlue
 import id.ac.pnm.hoventory.ui.theme.PurpleIconBg
 import id.ac.pnm.hoventory.ui.theme.RedText
 import id.ac.pnm.hoventory.ui.theme.TextGray
+import java.text.NumberFormat
+import java.util.Locale
 
 @Composable
 fun ProductItem(product: Product) {
+    val rupiahFormat = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -100,13 +103,13 @@ fun ProductItem(product: Product) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Rp${String.format("%,.0f", product.costPrice)}",
+                        text = rupiahFormat.format(product.costPrice),
                         fontSize = 12.sp,
                         color = TextGray
                     )
                     Text("  |  ", color = Color.LightGray, fontSize = 12.sp)
                     Text(
-                        text = "${product.stock} ${product.baseUnit ?: "Unit"}",
+                        text = "${product.stock} ${product.baseUnit.ifEmpty { "Pcs" }}",
                         fontSize = 12.sp,
                         color = if (product.stock <= product.minStock) RedText else TextGray
                     )

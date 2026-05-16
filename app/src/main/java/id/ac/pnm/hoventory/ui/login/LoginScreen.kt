@@ -54,7 +54,10 @@ import id.ac.pnm.hoventory.ui.theme.TealColor
 import id.ac.pnm.hoventory.ui.theme.TextGray
 
 @Composable
-fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewModel()) {
+fun LoginScreen(
+    navController: NavController,
+    viewModel: LoginViewModel = viewModel()
+) {
     val email by viewModel.email.collectAsState()
     val password by viewModel.password.collectAsState()
     var passwordVisible by remember { mutableStateOf(false) }

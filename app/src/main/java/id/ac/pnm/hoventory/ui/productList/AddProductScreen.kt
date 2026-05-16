@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -27,7 +28,6 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -51,7 +51,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -66,8 +68,10 @@ import id.ac.pnm.hoventory.ui.theme.TextGray
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddProductScreen(navController: NavController) {
-    val viewModel: ProductViewModel = viewModel()
+fun AddProductScreen(
+    navController: NavController,
+    viewModel: ProductViewModel = viewModel()
+    ) {
 
     var sku by remember { mutableStateOf("") }
     var namaProduk by remember { mutableStateOf("") }
@@ -185,6 +189,24 @@ fun AddProductScreen(navController: NavController) {
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
+            Column(
+                modifier = Modifier.padding(12.dp)
+            ) {
+                Text(
+                    text ="Tambah Produk Baru",
+                    color = Color.White,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Lengkapi Informasi produk agar inventaris lebih rapi dan mudah dikelola.",
+                    color = Color.White.copy(alpha = 0.85f),
+                    fontSize = 13.sp,
+                    lineHeight = 20.sp
+                )
+            }
+
             SectionHeader(
                 number = "1",
                 title = "Informasi Dasar"
@@ -199,7 +221,7 @@ fun AddProductScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(18.dp))
 
                 CustomtextField(
-                    label = "SKU",
+                    label = "SKU Produk",
                     value = sku,
                     onValueChange = {
                         sku = it
@@ -247,9 +269,10 @@ fun AddProductScreen(navController: NavController) {
                     label = "Harga Produk",
                     value = harga,
                     onValueChange = {
-                        harga = it
+                        harga = it.filter { char -> char.isDigit() || char == '.' }
                     },
-                    prefix = "Rp"
+                    prefix = "Rp",
+                    keyboardType = KeyboardType.Number
                 )
             }
         }
@@ -295,7 +318,7 @@ fun ProductImagePicker(imageUri: Uri?, onPickImage: () -> Unit) {
             .height(160.dp)
             .background(
                 color = FieldBackground,
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(22.dp)
             )
         .clickable { onPickImage() },
     contentAlignment = Alignment.Center
@@ -309,38 +332,62 @@ fun ProductImagePicker(imageUri: Uri?, onPickImage: () -> Unit) {
                     .fillMaxSize()
                     .clip(RoundedCornerShape(16.dp))
             )
-       Box(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(8.dp)
-                    .background(Color.Black.copy(alpha = 0.5f), CircleShape)
-                    .padding(4.dp)
+           Surface(
+               modifier = Modifier
+                   .align(Alignment.BottomEnd)
+                   .padding(12.dp)
+                   .background(Color.Black.copy(alpha = 0.5f)),
+               shape = CircleShape,
+               color = PrimaryBlue,
+               shadowElevation = 6.dp
             ) {
                 Icon(
                     Icons.Default.Edit,
                     contentDescription = "Ganti Foto",
                     tint = Color.White,
-                    modifier = Modifier.size(16.dp)
+                    modifier = Modifier.size(10.dp)
                 )
             }
         } else {
 
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = null,
-                    tint = TextGray,
-                    modifier = Modifier.size(32.dp)
-                )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Surface(
+                    shape = CircleShape,
+                    color = Color.White,
+                    shadowElevation = 4.dp
+                ) {
+                    Box(
+                        modifier = Modifier.padding(18.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = null,
+                            tint = PrimaryBlue,
+                            modifier = Modifier.size(30.dp)
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = "Tambah Foto Produk",
-                    color = TextGray,
+                    text = "Upload Foto Produk",
+                    color = PrimaryBlue,
+                    fontWeight = FontWeight.Bold,
                     fontSize = 14.sp
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = "PNG, JPG atau JPEG",
+                    color = TextGray,
+                    fontSize = 12.sp
                 )
             }
         }
@@ -355,11 +402,15 @@ fun CardSection(
             .fillMaxWidth()
             .background(
                 color = Color.White,
-                shape = RoundedCornerShape(18.dp)
+                shape = RoundedCornerShape(22.dp)
             )
             .padding(16.dp)
     ) {
-        content()
+        Column(
+            modifier = Modifier.padding(18.dp)
+        ) {
+            content()
+        }
     }
 }
 @Composable
@@ -368,7 +419,8 @@ fun CustomtextField(
     value: String,
     onValueChange: (String) -> Unit,
     trailingIcon: ImageVector? = null,
-    prefix: String? = null
+    prefix: String? = null,
+    keyboardType: KeyboardType = KeyboardType.Text
 ) {
     Column {
         Text(
@@ -384,6 +436,12 @@ fun CustomtextField(
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
             shape = RoundedCornerShape(8.dp),
+            textStyle = TextStyle(
+                fontSize = 14.sp
+            ),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = keyboardType
+            ),
             prefix = prefix?.let { { Text(it) } },
             trailingIcon = trailingIcon?.let {
                 { Icon(

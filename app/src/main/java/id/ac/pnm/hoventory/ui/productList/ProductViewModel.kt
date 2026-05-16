@@ -29,14 +29,19 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
         costPrice: String,
         imageUrl: String = ""
     ) {
+        val cleanPrice = costPrice
+            .replace(".","")
+            .replace(",","")
+            .trim()
+
         val newProduct = Product(
             sku = sku,
             name = name,
             category = category,
-            baseUnit = baseUnit,
+            baseUnit = baseUnit.ifEmpty { "Pcs" },
             stock = 0,
             minStock = 5,
-            costPrice = costPrice.toDoubleOrNull() ?: 0.0,
+            costPrice = cleanPrice.toDoubleOrNull() ?: 0.0,
             imageUrl = imageUrl
         )
         viewModelScope.launch {
