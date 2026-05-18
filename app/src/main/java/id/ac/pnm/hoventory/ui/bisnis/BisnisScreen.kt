@@ -129,7 +129,7 @@ fun BisnisScreen(navController: NavController? = null){
                 verticalArrangement = Arrangement.spacedBy(12.dp))
             {
                 Button(
-                    onClick = { },
+                    onClick = { navController?.navigate("buat_bisnis")},
                     modifier = Modifier.fillMaxWidth().height(56.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1A237E)),
                     shape = RoundedCornerShape(12.dp)

@@ -32,6 +32,7 @@ import id.ac.pnm.hoventory.ui.Profile.KelolaAnggota
 import id.ac.pnm.hoventory.ui.Profile.ProfileScreen
 import id.ac.pnm.hoventory.ui.login.LoginScreen
 import id.ac.pnm.hoventory.ui.bisnis.BisnisScreen
+import id.ac.pnm.hoventory.ui.bisnis.BuatBisnisScreen
 import id.ac.pnm.hoventory.ui.productList.AddProductScreen
 import id.ac.pnm.hoventory.ui.productList.ProductListScreen
 import id.ac.pnm.hoventory.ui.register.RegisterScreen
@@ -48,7 +49,10 @@ fun MainScreen(){
         "register",
         "tambah_produk",
         "bisnis",
-        "anggota"
+        "pilih_bisnis",
+        "buat_bisnis",
+        "anggota",
+
     )
 
     Scaffold (
@@ -66,7 +70,8 @@ fun MainScreen(){
                 )
             }
         }
-    ){
+    )
+    {
         innerPadding ->
         NavHost(
             navController = navController,
@@ -74,13 +79,14 @@ fun MainScreen(){
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("login") { LoginScreen(navController) }
-            composable("register") { RegisterScreen(navController) }
+            composable("register") { RegisterScreen(navController)}
             composable("beranda")  { HomeScreen(navController) }
             composable("produk") { ProductListScreen(navController) }
             composable("riwayat") { RiwayatScreen(navController) }
             composable("profil") { ProfileScreen(navController) }
             composable("tambah_produk") { AddProductScreen(navController) }
             composable("bisnis") { BisnisScreen(navController) }
+            composable("buat_bisnis") { BuatBisnisScreen(navController) }
             composable("anggota") { KelolaAnggota(navController) }
         }
     }
