@@ -12,10 +12,13 @@ interface ProductDao {
 @Insert
 suspend fun insert(vararg product: Product)
 
-@Query("SELECT * FROM product")
+    @Query("SELECT * FROM product")
     fun getAllProducts(): Flow<List<Product>>
 
+    @Query("UPDATE product SET stock = :newStock WHERE sku = :sku")
+    suspend fun updateProductStock(sku: String, newStock: Int)
 
-@Delete
-suspend fun delete(product: Product)
+
+    @Delete
+    suspend fun delete(product: Product)
 }

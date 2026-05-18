@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -15,8 +16,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material.icons.outlined.ViewInAr
@@ -35,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import id.ac.pnm.hoventory.data.Riwayat
 import id.ac.pnm.hoventory.ui.theme.LightGrayBg
 import id.ac.pnm.hoventory.ui.theme.NavyBlue
 import id.ac.pnm.hoventory.ui.theme.Purple80
@@ -44,7 +51,7 @@ import id.ac.pnm.hoventory.ui.theme.TextGray
 @Composable
 fun RiwayatScreen(
     navController: NavController,
-    viewModel: RiwayatViewModel = viewModel()){
+    viewModel: RiwayatViewModel = viewModel()) {
 
     val riwayatList by viewModel.riwayatList.collectAsState()
 
@@ -57,24 +64,30 @@ fun RiwayatScreen(
                 contentColor = Color.White,
                 shape = RoundedCornerShape(24.dp)
             ) {
-                Icon(Icons.Default.Download,
-                    contentDescription = "Unduh")
+                Icon(
+                    Icons.Default.Download,
+                    contentDescription = "Unduh"
+                )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Unduh ke Excel",
-                    fontWeight = FontWeight.Bold)
+                Text(
+                    "Unduh ke Excel",
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
-    ){paddingValues ->
-        Column (
+    ) { paddingValues ->
+        Column(
             modifier = Modifier
-                .fillMaxHeight()
+                .fillMaxSize()
                 .padding(paddingValues)
-        ){
-            Row (
+        ) {
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp,
-                        vertical = 16.dp),
+                    .padding(
+                        horizontal = 20.dp,
+                        vertical = 16.dp
+                    ),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -84,10 +97,11 @@ fun RiwayatScreen(
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
                 )
-                Row (
+                Row(
                     verticalAlignment = Alignment.CenterVertically
-                ){
-                    Icon(Icons.Default.FilterAlt,
+                ) {
+                    Icon(
+                        Icons.Default.FilterAlt,
                         contentDescription = "Filter",
                         tint = NavyBlue
                     )
@@ -104,20 +118,28 @@ fun RiwayatScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(PurpleIconBg)
-                    .padding(vertical = 12.dp,
+                    .padding(
+                        vertical = 12.dp,
                         horizontal = 20.dp
-                        )
-            ){
+                    )
+            ) {
                 Text(
                     text = "Riwayat 7 hari terakhir terlihat di versi gratis",
                     color = NavyBlue,
                     fontSize = 12.sp
                 )
             }
-            if (riwayatList.isEmpty()){
+            if (riwayatList.isEmpty()) {
                 EmptyStateRiwayat()
-            }else{
-
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(bottom = 80.dp)
+                ) {
+                    items(riwayatList) { item ->
+                        RiwayatItemRow(item)
+                    }
+                }
             }
         }
     }
@@ -166,4 +188,44 @@ fun EmptyStateRiwayat() {
         )
     }
 }
+
+@Composable
+fun RiwayatItemRow(riwayat: Riwayat) {
+    val iconColor = if (riwayat.isIncoming) Color(0xFF2E7D32) else Color(0xFFD32F2F)
+    val bgColor = if (riwayat.isIncoming) Color(0xFFE8F5E9) else Color(0xFFFFEBEE)
+    val icon = if (riwayat.isIncoming) Icons.Default.ArrowUpward else Icons.Default.ArrowDownward
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp, vertical = 8.dp)
+            .background(Color.White, shape = RoundedCornerShape(12.dp))
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .background(bgColor, shape = CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(imageVector = icon, contentDescription = null, tint = iconColor, modifier = Modifier.size(20.dp))
+            }
+            Spacer(modifier = Modifier.width(12.dp))
+            Column {
+                Text(text = riwayat.title, fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.Black)
+                Text(text = riwayat.subtitle, fontSize = 12.sp, color = TextGray)
+            }
+        }
+        Text(
+            text = "${riwayat.amount} ${riwayat.unit}",
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            color = iconColor
+        )
+    }
+}
+
 
