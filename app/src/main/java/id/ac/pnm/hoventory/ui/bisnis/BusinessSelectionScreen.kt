@@ -88,7 +88,7 @@ fun BusinessSelectionScreen(
             backgroundColor = Color(0xFFE5EEFF),
             iconColor = PrimaryBlue,
             onClick = {
-                navController.navigate("buat_bisnis")
+                navController.navigate("buat_bisnis_register")
             }
         )
         Spacer(modifier = Modifier.height(16.dp))

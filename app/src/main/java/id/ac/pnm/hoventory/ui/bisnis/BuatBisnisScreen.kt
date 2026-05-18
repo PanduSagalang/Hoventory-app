@@ -52,11 +52,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BuatBisnisScreen(navController: NavController? = null) {
+fun BuatBisnisScreen(
+    navController: NavController? = null,
+    fromRegister: Boolean = false,
+    viewModel: BuatBisnisViewModel = viewModel()
+) {
     val primaryNavy = Color(0xFF1A237E)
     val textBlueBanner = Color(0xFF1565C0)
     val orangeIcon = Color(0xFFFFB74D)
@@ -266,7 +271,32 @@ fun BuatBisnisScreen(navController: NavController? = null) {
                     Spacer(modifier = Modifier.height(32.dp))
 
                     Button(
-                        onClick = { },
+                        onClick = {
+                            viewModel.buatBisnis(
+                                namaBisnis = namaBisnis,
+                                negara = negaraBisnis,
+                                alamat = alamatBisnis,
+                                email = emailBisnis,
+                                telepon = noTelepon,
+
+                                onSuccess = {
+                                    if (fromRegister) {
+                                        navController?.navigate("login") {
+                                            popUpTo(0)
+                                        }
+                                    } else {
+                                        navController?.navigate("bisnis") {
+                                            popUpTo("buat_bisnis") {
+                                                inclusive = true
+                                            }
+                                        }
+                                    }
+                                },
+                                onError = {
+
+                                }
+                            )
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(50.dp),

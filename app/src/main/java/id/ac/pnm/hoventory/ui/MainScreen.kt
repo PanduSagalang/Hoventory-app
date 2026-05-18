@@ -52,6 +52,7 @@ fun MainScreen(){
         "bisnis",
         "pilih_bisnis",
         "buat_bisnis",
+        "buat_bisnis_register",
         "anggota"
     )
 
@@ -87,7 +88,8 @@ fun MainScreen(){
             composable("tambah_produk") { AddProductScreen(navController) }
             composable("bisnis") { BisnisScreen(navController) }
             composable("pilih_bisnis") { BusinessSelectionScreen(navController) }
-            composable("buat_bisnis") { BuatBisnisScreen(navController) }
+            composable("buat_bisnis") { BuatBisnisScreen(navController, fromRegister = false) }
+            composable("buat_bisnis_register") { BuatBisnisScreen(navController, fromRegister = true) }
             composable("anggota") { KelolaAnggota(navController) }
         }
     }

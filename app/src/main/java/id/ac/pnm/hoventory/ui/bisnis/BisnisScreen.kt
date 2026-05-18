@@ -1,7 +1,5 @@
 package id.ac.pnm.hoventory.ui.bisnis
 
-import android.R.attr.name
-import android.provider.CalendarContract.Colors
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,6 +31,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,20 +43,28 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import id.ac.pnm.hoventory.R
-import id.ac.pnm.hoventory.ui.business.EditBusinessScreen
+import id.ac.pnm.hoventory.data.Business
 import id.ac.pnm.hoventory.ui.theme.NavyBlue
-import kotlin.math.min
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BisnisScreen(navController: NavController? = null){
+fun BisnisScreen(
+    navController: NavController? = null,
+    viewModel: BussinessViewModel = viewModel()
+){
+    var businessList by remember { mutableStateOf<List<Business>>(emptyList()) }
+    LaunchedEffect(Unit) {
+        viewModel.getUserBusinesses {
+            businessList = it
+        }
+    }
     Scaffold(topBar = {
         TopAppBar(
             title = { Text("Pilih Bisnis", fontWeight = FontWeight.Bold, color = Color(0xFF1A237E) ) },
@@ -115,12 +126,23 @@ fun BisnisScreen(navController: NavController? = null){
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
-                BusinessItem(
-                    nama = "Lawu Elektronik",
-                    role = "Owner",
-                    staffCount = 12,
-                    iconRes = R.drawable.ic_logo // Ganti dengan image asli
-                )
+                if (businessList.isEmpty()) {
+                    Text(
+                        text = "Belum ada bisnis",
+                        color = Color.Gray,
+                        fontSize = 14.sp
+                    )
+                } else {
+                    businessList.forEach { business ->
+                        BusinessItem(
+                            nama = business.name,
+                            role = "Owner",
+                            staffCount = 1,
+                            iconRes = R.drawable.ic_logo
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                    }
+                }
             }
 
             Column(modifier = Modifier.align(Alignment.BottomCenter)
