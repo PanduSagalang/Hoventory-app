@@ -33,6 +33,7 @@ import id.ac.pnm.hoventory.ui.Profile.ProfileScreen
 import id.ac.pnm.hoventory.ui.login.LoginScreen
 import id.ac.pnm.hoventory.ui.bisnis.BisnisScreen
 import id.ac.pnm.hoventory.ui.bisnis.BuatBisnisScreen
+import id.ac.pnm.hoventory.ui.bisnis.BusinessSelectionScreen
 import id.ac.pnm.hoventory.ui.productList.AddProductScreen
 import id.ac.pnm.hoventory.ui.productList.ProductListScreen
 import id.ac.pnm.hoventory.ui.register.RegisterScreen
@@ -51,8 +52,7 @@ fun MainScreen(){
         "bisnis",
         "pilih_bisnis",
         "buat_bisnis",
-        "anggota",
-
+        "anggota"
     )
 
     Scaffold (
@@ -86,6 +86,7 @@ fun MainScreen(){
             composable("profil") { ProfileScreen(navController) }
             composable("tambah_produk") { AddProductScreen(navController) }
             composable("bisnis") { BisnisScreen(navController) }
+            composable("pilih_bisnis") { BusinessSelectionScreen(navController) }
             composable("buat_bisnis") { BuatBisnisScreen(navController) }
             composable("anggota") { KelolaAnggota(navController) }
         }

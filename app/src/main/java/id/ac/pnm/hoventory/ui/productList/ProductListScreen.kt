@@ -38,7 +38,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import id.ac.pnm.hoventory.ui.Profile.ProfileScreen
 import id.ac.pnm.hoventory.ui.theme.BackgroundColor
 import id.ac.pnm.hoventory.ui.theme.GreenIconBg
 import id.ac.pnm.hoventory.ui.theme.GreenText

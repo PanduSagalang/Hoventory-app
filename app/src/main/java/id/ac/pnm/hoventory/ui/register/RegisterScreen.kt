@@ -58,7 +58,7 @@ fun RegisterScreen(navController: NavController, viewModel: RegisterViewModel = 
                     Toast.LENGTH_SHORT
                 ).show()
 
-                navController.navigate("beranda") {
+                navController.navigate("pilih_bisnis") {
                     popUpTo("register") {
                         inclusive = true
                     }

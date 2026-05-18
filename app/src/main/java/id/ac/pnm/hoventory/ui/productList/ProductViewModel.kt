@@ -2,16 +2,10 @@ package id.ac.pnm.hoventory.ui.productList
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.application
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import id.ac.pnm.hoventory.AppDatabase
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import id.ac.pnm.hoventory.data.Product
 import kotlinx.coroutines.launch
-import retrofit2.http.Url
 
 class ProductViewModel(application: Application) : AndroidViewModel(application) {
 
